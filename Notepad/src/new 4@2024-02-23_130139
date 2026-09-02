@@ -1,0 +1,16 @@
+1) tell me about your project?
+2) implement fastest cache library using LRU?
+3) also implement fastest cache it without using collection
+4) what is kafka and it's internal working?
+5) what is kafka lag?
+6) what is unit testing?
+7) How you do functional testing?
+8) how capacity of kafka is determined and what all methods of you have for this?
+9) how will you limit asynchronus call in kafka?
+10) how will you manage or limit resource usage using kafka?
+11) how to scale your application after TPS reach?
+12) how we can determine maximum TPS is reached of your application?
+13) how you will find throughput of your application?
+14) In load testing how you will determine tiping point and what all metric is used?
+15) How you will used distributed cache?
+16) how you will fastlookup for data based on columns?

@@ -1,0 +1,49 @@
+
+
+
+StringBuilder s = new StringBuilder("prabhat')
+
+s.reverse();
+
+
+@GetMapping("/v1/api/)
+
+@RestController(/v1/api/student)
+public Student{
+
+private StudentImpl sd;
+
+
+@GetMapping(/{"ID"})
+public ResponseEntity getId(@RequestParam String Id){
+
+
+return sd.getId();
+
+
+
+
+
+
+}
+
+
+public Interface Data extends JPARepository{
+
+list<Student> getId(String Id);
+
+}
+
+public StudentImpl{
+
+private Data d;
+
+getId(String Id){}{
+
+return d.findById(Id);
+
+}
+
+}
+
+}

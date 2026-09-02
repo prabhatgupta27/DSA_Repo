@@ -1,0 +1,61 @@
+public class SimpleEmailValidator {
+
+    public static boolean isValidEmail(String email) {
+        // 1. Basic null or empty check
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+
+        // 2. Must contain exactly one '@' symbol
+        int atIndex = email.indexOf('@');
+        if (atIndex == -1 || atIndex != email.lastIndexOf('@')) {
+            return false; // No '@' found or multiple '@' symbols
+        }
+
+        // 3. Extract local part (before '@') and domain part (after '@')
+        String localPart = email.substring(0, atIndex);
+        String domainPart = email.substring(atIndex + 1);
+
+        // 4. Validate both parts
+        return isValidLocalPart(localPart) && isValidDomainPart(domainPart);
+    }
+
+    private static boolean isValidLocalPart(String localPart) {
+        // Local part should not be empty
+        if (localPart.isEmpty()) {
+            return false;
+        }
+
+        // Local part should not start or end with '.' and should not contain spaces
+        if (localPart.charAt(0) == '.' || localPart.charAt(localPart.length() - 1) == '.' || localPart.contains(" ")) {
+            return false;
+        }
+
+        return true; // If conditions pass, it's valid
+    }
+
+    private static boolean isValidDomainPart(String domainPart) {
+        // Domain should not be empty and must contain at least one '.'
+        if (domainPart.isEmpty() || !domainPart.contains(".")) {
+            return false;
+        }
+
+        // Domain should not start or end with '.' and should not contain spaces
+        if (domainPart.charAt(0) == '.' || domainPart.charAt(domainPart.length() - 1) == '.' || domainPart.contains(" ")) {
+            return false;
+        }
+
+        return true; // If conditions pass, it's valid
+    }
+
+    // Main method to test the validator
+    public static void main(String[] args) {
+        System.out.println(isValidEmail("example@email.com"));  // true
+        System.out.println(isValidEmail("user.name@domain.co")); // true
+        System.out.println(isValidEmail("user@domain"));         // false
+        System.out.println(isValidEmail("user@.com"));           // false
+        System.out.println(isValidEmail("invalid-email"));       // false
+        System.out.println(isValidEmail("user@domain..com"));    // false
+        System.out.println(isValidEmail("user@domain .com"));    // false
+    }
+}

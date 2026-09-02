@@ -1,0 +1,1017 @@
+timestamps = [1, 2, 3, 7, 8, 9, 10]
+
+windowSize = 3
+
+
+
+public class Solution {
+    public static int getMaxRequests(int[] timestamps, int windowSize) {
+        if (timestamps == null || timestamps.length == 0) {
+            return 0;
+        }
+
+        int maxRequests = 0;
+        int left = 0;
+
+        // Expand the window using the right pointer
+        for (int right = 0; right < timestamps.length; right++) {
+            
+            // If the current window size exceeds windowSize, shrink it from the left
+            while (timestamps[right] - timestamps[left] > windowSize) {
+                left++;
+            }
+
+            // Calculate current window length and update maxRequests
+            int currentWindowRequests = right - left + 1;
+            maxRequests = Math.max(maxRequests, currentWindowRequests);
+        }
+
+        return maxRequests;
+    }
+}
+
+May 2026 — HackerRank + Integrated AI ScreenTarget Hubs: Bangalore & Remote India Hubs
+Question 1 (DSA/Coding): String Run-Length Compression Variant. Given an input string of characters, compress it using a custom run-length encoding
+ algorithm: traverse the string and replace any consecutive identical characters with the character followed by the count of repetitions.
+ Crucially, if a character appears exactly once, do not append a count.Mapping: Highly similar to LeetCode 443 (String Compression),
+ but modified to return a new string sequence rather than modifying an array in place.Constraints: $1 \le \text{length of string} \le 10^5$; 
+ string contains lowercase English letters only.Example Test Case:Input: "aaaabeee"Output: "a4be3" (Note that 'b' has no numeric suffix because
+ its frequency is 1).
+ 
+ Let’s perform a complete trace of the execution using our sample input:
+
+s = "aaaabeee"
+
+n = 8
+ 
+ public class Solution {
+    public static String compressString(String s) {
+        if (s == null || s.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder compressed = new StringBuilder();
+        int i = 0;
+        int n = s.length();
+
+        // Loop through the string block by block
+        while (i < n) {
+            char currentChar = s.charAt(i);
+            int j = i;
+
+            // Scan forward as long as the characters match
+            while (j < n && s.charAt(j) == currentChar) {
+                j++;
+            }
+
+            // The number of repetitions is the distance between the pointers
+            int count = j - i;
+
+            // Append the character itself
+            compressed.append(currentChar);
+
+            // Crucial Catch: Only append the count if it's greater than 1
+            if (count > 1) {
+                compressed.append(count);
+            }
+
+            // Jump the anchor pointer to the start of the next distinct block
+            i = j;
+        }
+
+        return compressed.toString();
+    }
+}
+
+
+Question 2 (System Design / Core Scenarios): Time Needed to Rearrange a Binary String. You are given a binary string. In one second, all 
+occurrences of the substring "01" are simultaneously replaced with "10". This process repeats until no more "01" substrings exist. Return 
+the total number of seconds required to complete this rearrangement. Framed as a backend packet-ordering optimization scenario where 
+out-of-order packets (0) must be prioritized behind processed status flags (1).Mapping: LeetCode 2380 (Time Needed to Rearrange a Binary String).
+Constraints: $1 \le \text{string length} \le 10^5$. Requires an $O(N)$ one-pass dynamic programming or analytical tracking approach to pass the
+ hidden high-volume test cases; a naive simulation approach ($O(N^2)$) timed out.The "AI Interviewer" Component:"Explain the mathematical proof 
+ or structural pattern behind why your solution for Question 2 achieves an O(N) time complexity instead of resorting to an O(N^2) step-by-step 
+ simulation.""If this packet-reordering system were converted into a live, real-time distributed stream processing pipeline, what structural 
+ changes would you make to prevent memory leaks or backpressure overhead when handling continuous incoming binary flags?"Community 
+ Consensus: Medium Difficulty. Question 1 was an easy warmup, but Question 2 caught several senior candidates off guard due to strict edge cases 
+ regarding trailing zeros and consecutive packet blocks.
+
+Let’s perform a complete trace using the example input:
+
+s = "0110101"
+
+Watch how the variables zeros and seconds evaluate dynamically as we inspect each character:
+
+
+public class Solution {
+    public static int secondsToRemoveOccurrences(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+
+        int seconds = 0;
+        int zeros = 0;
+        int n = s.length();
+
+        // One-pass analytical tracking
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '0') {
+                zeros++;
+            } else {
+                // If we hit a '1' and there are zeros before it, calculate its delay
+                if (zeros > 0) {
+                    seconds = Math.max(seconds + 1, zeros);
+                }
+            }
+        }
+
+        return seconds;
+    }
+}
+
+
+April / May 2026 — HackerRank Assessment BlockTarget Hubs: Hyderabad CoE (Center of Excellence)Question 1 (DSA/Coding): Minimum Length Subarray 
+with K Distinct Integers. Given an array of integers, identify the exact length of the shortest contiguous subarray that contains 
+exactly $k$ distinct integers. If no such subarray exists across the entire dataset, return -1.  Mapping: Modified optimization variant of
+ LeetCode 992 (Subarrays with K Distinct Integers). Instead of counting total subarrays, it requires finding the absolute minimum window length.
+ Constraints: $1 \le \text{array length} \le 10^5$; $1 \le k \le 10^5$; array elements can be up to $10^9$. Requires an optimized sliding window 
+ algorithm operating in linear time.
+ 
+  nums = [2, 1, 1, 3, 2]
+
+k = 3
+ 
+ import java.util.HashMap;
+import java.util.Map;
+
+public class Solution {
+    public static int getShortestSubarrayWithKDistinct(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k <= 0) {
+            return -1;
+        }
+
+        Map<Integer, Integer> counts = new HashMap<>();
+        int minLength = Integer.MAX_VALUE;
+        int left = 0;
+
+        // Expand the window using the right pointer
+        for (int right = 0; right < nums.length; right++) {
+            int currentNum = nums[right];
+            counts.put(currentNum, counts.getOrDefault(currentNum, 0) + 1);
+
+            // While the window contains exactly k distinct integers, try to optimize
+            while (counts.size() == k) {
+                // Update the minimum length found so far
+                minLength = Math.min(minLength, right - left + 1);
+
+                // Shrink the window from the left
+                int leftNum = nums[left];
+                counts.put(leftNum, counts.get(leftNum) - 1);
+                
+                // If the frequency drops to 0, remove it from the map to reduce distinct count
+                if (counts.get(leftNum) == 0) {
+                    counts.remove(leftNum);
+                }
+                
+                left++;
+            }
+        }
+
+        return (minLength == Integer.MAX_VALUE) ? -1 : minLength;
+    }
+}
+
+
+Question 2 (System Design / Core Scenarios): Shortest Dependency Cycle Detection. Modeled around an enterprise build system or microservice
+ compiler. The input defines a directed graph representing dependency components. The system needs to find the shortest cyclic loop introduced 
+ by an erroneous circular dependency edge.Mapping: Shortest Cycle Detection in a Directed Graph using Breadth-First Search (BFS) tracking from 
+ every node.Constraints: $1 \le \text{nodes} \le 10^4$; $1 \le \text{edges} \le 5 \times 10^4$.
+ The "AI Interviewer" Component:"If you were tasked with building a highly scalable, multi-tenant distributed rate limiter for an enterprise 
+ platform like Salesforce, which structural mechanism (Token Bucket, Leaking Bucket, or Sliding Window Log) would you deploy to protect underlying 
+ services from traffic spikes? Defend your architectural trade-offs.""What are the strict limitations of your cycle detection algorithm if the
+ microservice dependency graph grew dynamically to millions of nodes across multiple clusters? How would you distribute the graph 
+ processing?"Community Consensus: Hard Difficulty. This specific batch had a very high bar. The graph edge cases combined with the sliding window 
+ complexity meant that writing optimized, clean code under time pressure was difficult, and the distributed systems follow-ups required distinct 
+ staff/senior-level system design maturity.
+ 
+ 
+
+ 
+ import java.util.*;
+
+public class Solution {
+    public static int findShortestCycle(int numNodes, List<List<Integer>> edges) {
+        // Step 1: Build the Adjacency List for the Directed Graph
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < numNodes; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (List<Integer> edge : edges) {
+            int u = edge.get(0);
+            int v = edge.get(1);
+            graph.get(u).add(v); // Directed Edge: u -> v
+        }
+
+        int shortestCycle = Integer.MAX_VALUE;
+
+        // Step 2: Run BFS from every single node to evaluate its shortest cycle
+        for (int i = 0; i < numNodes; i++) {
+            int currentCycleLength = locateShortestCycleFromSource(i, numNodes, graph);
+            shortestCycle = Math.min(shortestCycle, currentCycleLength);
+            
+            // Optimization: A cycle cannot be smaller than length 2 in a directed graph (u -> v -> u)
+            if (shortestCycle == 2) {
+                return 2; 
+            }
+        }
+
+        return (shortestCycle == Integer.MAX_VALUE) ? -1 : shortestCycle;
+    }
+
+    private static int locateShortestCycleFromSource(int source, int numNodes, List<List<Integer>> graph) {
+        int[] dist = new int[numNodes];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        
+        Queue<Integer> queue = new LinkedList<>();
+        
+        dist[source] = 0;
+        queue.add(source);
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+
+            for (int neighbor : graph.get(current)) {
+                // If we discover a path leading back to the source node, a cycle is completed!
+                if (neighbor == source) {
+                    return dist[current] + 1;
+                }
+
+                // Standard BFS tracking: Visit unvisited nodes
+                if (dist[neighbor] == Integer.MAX_VALUE) {
+                    dist[neighbor] = dist[current] + 1;
+                    queue.add(neighbor);
+                }
+            }
+        }
+        
+        return Integer.MAX_VALUE;
+    }
+}
+
+
+
+Q1 Salesforec Server error problem
+
+Let's do a complete trace using the exact example from your problem image:
+
+n = 2 (Servers: s1, s2)
+
+logs = ["s1 error", "s1 error", "s2 error", "s1 error", "s1 error", "s2 success"]
+
+output will be 1
+
+Initial State:
+
+errorStreak Map = {}
+
+replacementCount = 0
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ServerMonitor {
+    
+    public static int countFaults(int n, String[] logs) {
+        // Map to track the current consecutive error streak for each server
+        Map<String, Integer> errorStreak = new HashMap<>();
+        int replacementCount = 0;
+        
+        for (String log : logs) {
+            // Split the log by space to separate Server ID and Status
+            String[] logParts = log.split(" ");
+            String serverId = logParts[0];
+            String status = logParts[1];
+            
+            if (status.equals("error")) {
+                int currentStreak = errorStreak.getOrDefault(serverId, 0) + 1;
+                
+                if (currentStreak == 3) {
+                    replacementCount++;
+                    errorStreak.put(serverId, 0); // Server replaced, reset streak
+                } else {
+                    errorStreak.put(serverId, currentStreak);
+                }
+            } else {
+                // A success status completely resets the consecutive error streak
+                errorStreak.put(serverId, 0);
+            }
+        }
+        
+        return replacementCount;
+    }
+}
+
+
+q2 salesforce balanced server
+
+
+capacity = [9, 3, 3, 3, 9]
+
+n = 5
+
+output will be 2
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class StableServers {
+
+    public static long countStableSegments(int[] capacity) {
+        int n = capacity.length;
+        if (n < 3) return 0;
+
+        // Precompute Prefix Sums
+        long[] pref = new long[n];
+        pref[0] = capacity[0];
+        for (int i = 1; i < n; i++) {
+            pref[i] = pref[i - 1] + capacity[i];
+        }
+
+        // Map key format: "capacityValue_requiredPrefixSum"
+        Map<String, Integer> signatureMap = new HashMap<>();
+        long stableSegmentsCount = 0;
+
+        // Start from r = 2 because the minimum valid segment length is 3
+        for (int r = 2; r < n; r++) {
+            // Dynamically add the valid left endpoint (r - 2) to the map
+            int l = r - 2;
+            String leftSignature = capacity[l] + "_" + (pref[l] + capacity[l]);
+            signatureMap.put(leftSignature, signatureMap.getOrDefault(leftSignature, 0) + 1);
+
+            // Look up if a matching target signature exists for the current right endpoint
+            String targetSignature = capacity[r] + "_" + pref[r - 1];
+            if (signatureMap.containsKey(targetSignature)) {
+                stableSegmentsCount += signatureMap.get(targetSignature);
+            }
+        }
+
+        return stableSegmentsCount;
+    }
+}
+
+
+Question 1 (DSA/Coding): Remove Duplicates from an Unsorted Linked List. Given the head of an unsorted linked list, write an optimized utility 
+to traverse the list and remove any node containing a value that has already appeared earlier in the sequence. Return the head of the modified
+ list, ensuring that the original relative order of the remaining unique elements is perfectly preserved.Mapping: 
+ LeetCode 1836 (Remove Duplicates From an Unsorted Linked List) variation.Constraints: Number of nodes in the list is between 
+ $1$ and $10^5$; node values range from $-10^4$ to $10^4$. The execution window restricted solutions to an optimal $O(N)$ time tracking 
+ path.Example Test Case:Input: [3, 4, 3, 2, 4]Output: [3, 4, 2]
+ 
+ 
+ import java.util.HashSet;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+public class LinkedListUtility {
+    
+    public static ListNode removeDuplicates(ListNode head) {
+        if (head == null) return null;
+        
+        HashSet<Integer> seen = new HashSet<>();
+        ListNode current = head;
+        ListNode prev = null;
+        
+        while (current != null) {
+            if (seen.contains(current.val)) {
+                // Duplicate detected! Bypass the current node
+                prev.next = current.next;
+            } else {
+                // Unique value! Add to history and advance the prev pointer
+                seen.add(current.val);
+                prev = current;
+            }
+            // Move current forward in the list
+            current = current.next;
+        }
+        
+        return head;
+    }
+}
+
+
+
+
+using dummy node
+
+import java.util.HashSet;
+
+public class LinkedListUtilityWithDummy {
+    
+    public static ListNode removeDuplicates(ListNode head) {
+        if (head == null) return null;
+        
+        // Create the dummy node and link it to the head
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        
+        HashSet<Integer> seen = new HashSet<>();
+        ListNode prev = dummy;
+        ListNode current = head;
+        
+        while (current != null) {
+            if (seen.contains(current.val)) {
+                // Seamless bypass using the guaranteed prev pointer
+                prev.next = current.next;
+            } else {
+                seen.add(current.val);
+                prev = current;
+            }
+            current = current.next;
+        }
+        
+        // dummy.next perfectly preserves and returns the new head
+        return dummy.next;
+    }
+}
+
+
+Question 2 (DSA/Coding): Minimum Operations to Reduce an Integer to 0. An algorithmic variant using dynamic programming and bitwise patterns to 
+determine the minimum addition or subtraction of powers of two to reduce an integer value down to 0.Mapping: LeetCode 2571 (Minimum Operations 
+to Reduce an Integer to 0).Constraints: $1 \le n \le 10^5$.
+
+public class ReduceInteger {
+
+    public static int minOperations(int n) {
+        int operations = 0;
+        
+        while (n > 0) {
+            // If the current bit is 0, it's free real estate! Just shift right.
+            if ((n & 1) == 0) {
+                n >>= 1;
+            } 
+            // If it ends with ...11 in binary, adding 1 clears consecutive bits
+            else if ((n & 3) == 3) {
+                n += 1;
+                operations++;
+            } 
+            // If it ends with ...01 in binary, subtract the isolated 1
+            else {
+                n -= 1;
+                operations++;
+            }
+        }
+        
+        return operations;
+    }
+}
+
+
+without bitwise
+
+public class MinOperations {
+
+    /**
+     * Calculates minimum operations using arithmetic logic.
+     * Time Complexity: O(log N)
+     * Space Complexity: O(1)
+     */
+    public int minOperations(int n) {
+        int ops = 0;
+        
+        while (n > 0) {
+            // Case 1: Even number, just divide by 2
+            if (n % 2 == 0) {
+                n /= 2;
+            } 
+            // Case 2: Ends in ...11, add 1 to trigger carry
+            else if (n % 4 == 3) {
+                n += 1;
+                ops++;
+            } 
+            // Case 3: Ends in ...01, subtract 1 to clear bit
+            else {
+                n -= 1;
+                ops++;
+            }
+        }
+        return ops;
+    }
+
+    public static void main(String[] args) {
+        MinOperations solver = new MinOperations();
+        System.out.println("Ops for 39: " + solver.minOperations(39)); // Output: 3
+    }
+}
+
+
+
+Two Strings form a complementary pair if there exists some permutation of their concatenation that forms a palndrome.
+For example, the strings "abac" and "cab" form a complementary pair since their concatenation "abaccab" cab be rearranged to form the 
+palndrome "bcaacb".
+Given an array of strings, find the number of complementary pairs that can be formed. Note that pairs(i, j) and (i, j) are considered same.
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
+
+public class ComplementaryPairsHashMap {
+
+    public static long countComplementaryPairs(String[] words) {
+        // Map to store the frequency of each unique 26-character state string
+        Map<String, Integer> signatureCounts = new HashMap<>();
+        long totalPairs = 0;
+
+        for (String word : words) {
+            // Create an initial template array filled with '0' (all characters even)
+            char[] state = new char[26];
+            Arrays.fill(state, '0');
+
+            // Compute the state signature for the current word
+            for (int i = 0; i < word.length(); i++) {
+                int index = word.charAt(i) - 'a';
+                // Pure conditional toggle: '0' becomes '1', '1' becomes '0'
+                state[index] = (state[index] == '0') ? '1' : '0';
+            }
+
+            String currentSignature = new String(state);
+
+            // Case 1: Look for an exact match (all combined characters will have even counts)
+            totalPairs += signatureCounts.getOrDefault(currentSignature, 0);
+
+            // Case 2: Look for states that differ by exactly one character
+            char[] currentChars = currentSignature.toCharArray();
+            for (int i = 0; i < 26; i++) {
+                // Temporarily flip the state of the i-th character
+                char originalChar = currentChars[i];
+                currentChars[i] = (originalChar == '0') ? '1' : '0';
+                
+                String targetSignature = new String(currentChars);
+                totalPairs += signatureCounts.getOrDefault(targetSignature, 0);
+                
+                // Backtrack: Restore the character back to its original state
+                currentChars[i] = originalChar;
+            }
+
+            // Record the current word's signature in our map
+            signatureCounts.put(currentSignature, signatureCounts.getOrDefault(currentSignature, 0) + 1);
+        }
+
+        return totalPairs;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reverse link list
+
+public class ReverseLinkedList {
+    public static ListNode reverseWithoutDummy(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        
+        while (curr != null) {
+            ListNode nextTrack = curr.next; // Cache the rest of the list
+            curr.next = prev;               // Flip the arrow backward
+            prev = curr;                    // Move prev forward
+            curr = nextTrack;               // Move curr forward
+        }
+        
+        return prev; // prev will be standing at the new head
+    }
+}
+
+
+with dummy node
+
+
+public class ReverseLinkedListDummy {
+    public static ListNode reverseWithDummy(ListNode head) {
+        if (head == null || head.next == null) return head;
+        
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        
+        ListNode curr = head.next;
+        // head will become the tail, so its next must eventually be null
+        head.next = null; 
+        
+        while (curr != null) {
+            ListNode nextTrack = curr.next; // Cache the rest of the list
+            
+            // Squeeze curr right after dummy
+            curr.next = dummy.next;
+            dummy.next = curr;
+            
+            curr = nextTrack; // Move to the next node to process
+        }
+        
+        return dummy.next;
+    }
+}
+
+
+40. Combination Sum II
+Medium
+TopicsCompanies
+Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+Each number in candidates may only be used once in the combination.
+Note: The solution set must not contain duplicate combinations.
+ 
+Example 1:
+Input: candidates = [10,1,2,7,6,1,5], target = 8Output: 
+[
+[1,1,6],
+[1,2,5],
+[1,7],
+[2,6]
+] Example 2:
+Input: candidates = [2,5,2,1,2], target = 5Output: 
+[
+[1,2,2],
+[5]
+]
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class CombinationSumII {
+
+    public static List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        // Sort to bring duplicates together and enable early tracking/pruning
+        Arrays.sort(candidates);
+        backtrack(result, new ArrayList<>(), candidates, target, 0);
+        return result;
+    }
+
+    private static void backtrack(List<List<Integer>> result, List<Integer> currentList, 
+                                  int[] candidates, int remainingTarget, int start) {
+        // Base Case 1: Target reached perfectly
+        if (remainingTarget == 0) {
+            result.add(new ArrayList<>(currentList));
+            return;
+        }
+
+        for (int i = start; i < candidates.length; i++) {
+            // Early Pruning: If the element exceeds remaining budget, stop checking further
+            if (candidates[i] > remainingTarget) {
+                break;
+            }
+
+            // Duplicate Pruning: Skip identical values at the same decision level
+            if (i > start && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+
+            // Choose: Include the element
+            currentList.add(candidates[i]);
+
+            // Explore: Move to the next index (i + 1 ensures single-use rule)
+            backtrack(result, currentList, candidates, remainingTarget - candidates[i], i + 1);
+
+            // Backtrack: Remove the element to explore other choices
+            currentList.remove(currentList.size() - 1);
+        }
+    }
+}
+
+
+767. Reorganize String
+Medium
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, rearrange the characters of s so that any two adjacent characters are not the same.
+
+Return any possible rearrangement of s or return "" if not possible.
+
+ 
+
+Example 1:
+
+Input: s = "aab"
+Output: "aba"
+Example 2:
+
+Input: s = "aaab"
+Output: ""
+
+
+import java.util.PriorityQueue;
+
+public class ReorganizeStringSolution {
+
+    public static String reorganizeString(String s) {
+        int n = s.length();
+        int[] frequencyMap = new int[26];
+        
+        // Step 1: Count character frequencies
+        for (int i = 0; i < n; i++) {
+            frequencyMap[s.charAt(i) - 'a']++;
+        }
+        
+        // Step 2: Initialize Max-Heap based on frequency counts
+        PriorityQueue<char[]> maxHeap = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+        
+        for (int i = 0; i < 26; i++) {
+            if (frequencyMap[i] > 0) {
+                // If any single character exceeds the mathematical limit, it's impossible
+                if (frequencyMap[i] > (n + 1) / 2) {
+                    return "";
+                }
+                maxHeap.offer(new char[]{(char) (i + 'a'), (char) frequencyMap[i]});
+            }
+        }
+        
+        StringBuilder result = new StringBuilder();
+        
+        // Step 3: Process the top 2 elements greedily
+        while (maxHeap.size() >= 2) {
+            char[] first = maxHeap.poll();
+            char[] second = maxHeap.poll();
+            
+            result.append(first[0]);
+            result.append(second[0]);
+            
+            // If frequencies remain, update and re-insert into the heap
+            if (--first[1] > 0) maxHeap.offer(first);
+            if (--second[1] > 0) maxHeap.offer(second);
+        }
+        
+        // Step 4: Handle the final remaining single character (if any)
+        if (!maxHeap.isEmpty()) {
+            char[] last = maxHeap.poll();
+            result.append(last[0]);
+        }
+        
+        return result.toString();
+    }
+}
+
+
+There are n petrol pumps along a circular route, where the amount of petrol at the ith station is petrol[I]. 
+You have a car with an unlimited petrol tank and it costs cost[i] of petrol to travel from the ith station to its next (i + 1)th station.
+ You begin the journey with an empty tank at one of the petrol stations. Given two integer arrays petrol and cost, return the starting
+ petrol station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, 
+ it is guaranteed to be unique.
+
+Input: petrol = [1,2,3,4,6], cost = [3,4,5,1,2] Output: 3
+
+Input: petrol = [1,2,3,4,1], cost = [3,4,5,1,6]
+
+
+
+
+public int canCompleteCircuit(int[] petrol, int[] cost) {
+
+    int totalPetrol = 0;
+    int currTank = 0;
+    int start = 0;
+
+    for (int i = 0; i < petrol.length; i++) {
+
+        int diff = petrol[i] - cost[i];
+
+        totalPetrol += diff;
+        currTank += diff;
+
+        if (currTank < 0) {
+            start = i + 1;
+            currTank = 0;
+        }
+    }
+
+    return totalPetrol >= 0 ? start : -1;
+}		
+
+
+//Sliding window rate limiter implimentation
+
+import java.util.*;
+public class Main
+{
+    private static final int limit = 5;
+    private static final int window_size = 1000;
+    
+    private static final Deque<Long> q = new ArrayDeque();
+    
+    public static boolean allowRequest(){
+        
+        long now = System.currentTimeMillis();
+        
+        while(!q.isEmpty() && (now - q.peekFirst()) >= window_size){
+            q.pollFirst();
+        }
+        
+        if(q.size() < limit ){
+            q.offerLast(now);
+            return true;
+        }
+        
+        return false;
+        
+    }
+    
+	public static void main(String[] args) {
+	    
+
+	    for(int i = 0 ; i< 10 ; i++){
+	        System.out.println(allowRequest());
+	    }
+	    
+	    
+	}
+}
+
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class SimpleRateLimiter {
+
+    private static final int LIMIT = 5;
+    private static final long WINDOW_SIZE = 1000; // 1 second (1000 ms)
+
+    private final Deque<Long> queue = new ArrayDeque<>();
+
+    public synchronized boolean allowRequest() {
+        long now = System.currentTimeMillis();
+
+        // 1. Evict timestamps outside the active rolling window
+        while (!queue.isEmpty() && now - queue.peekFirst() >= WINDOW_SIZE) {
+            queue.pollFirst();
+        }
+
+        // 2. Accept or reject based on the current window count
+        if (queue.size() < LIMIT) {
+            queue.offerLast(now);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        SimpleRateLimiter limiter = new SimpleRateLimiter();
+
+        System.out.println("--- Phase 1: Rapid burst of 7 requests (Limit: 5/sec) ---");
+        for (int i = 1; i <= 7; i++) {
+            boolean allowed = limiter.allowRequest();
+            System.out.printf("Request #%d: %s%n", i, allowed ? "ALLOWED" : "BLOCKED (429 Too Many Requests)");
+        }
+
+        System.out.println("\n--- Phase 2: Sleeping for 1100 ms (Window Expiration) ---");
+        Thread.sleep(1100);
+
+        System.out.println("\n--- Phase 3: New request after window reset ---");
+        boolean allowedAfterWait = limiter.allowRequest();
+        System.out.printf("Request #8: %s%n", allowedAfterWait ? "ALLOWED" : "BLOCKED");
+    }
+}
+
+import java.util.Deque;
+import java.util.LinkedList;
+
+public class StaticLinkedListRateLimiter {
+
+    private static final int LIMIT = 5;
+    private static final long WINDOW_SIZE = 1000; // 1 second (1000 ms)
+
+    // Static queue shared across the entire class
+    private static final Deque<Long> queue = new LinkedList<>();
+
+    // Static synchronized locks on StaticLinkedListRateLimiter.class
+    public static synchronized boolean allowRequest() {
+        long now = System.currentTimeMillis();
+
+        // 1. Evict expired entries from head of linked list
+        while (!queue.isEmpty() && now - queue.peekFirst() >= WINDOW_SIZE) {
+            queue.pollFirst();
+        }
+
+        // 2. Check window capacity
+        if (queue.size() < LIMIT) {
+            queue.offerLast(now);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        // Direct calls inside a loop without creating any instance
+        for (int i = 1; i <= 7; i++) {
+            boolean allowed = allowRequest();
+            System.out.printf("Request #%d -> %s%n", i, allowed ? "ALLOWED" : "BLOCKED (429)");
+        }
+
+        System.out.println("\nWaiting 1.1s for window to reset...\n");
+        Thread.sleep(1100);
+
+        for (int i = 8; i <= 10; i++) {
+            boolean allowed = allowRequest();
+            System.out.printf("Request #%d -> %s%n", i, allowed ? "ALLOWED" : "BLOCKED (429)");
+        }
+    }
+}
+
+
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
+public class Main {
+
+    static class LRUCache {
+
+        private final int capacity;
+        private final LinkedHashSet<Integer> cache = new LinkedHashSet<>();
+
+        public LRUCache(int capacity) {
+            this.capacity = capacity;
+        }
+
+        public void add(int value) {
+
+            // If already exists, remove first
+            // so it becomes most recently used
+            cache.remove(value);
+
+            // If new element and cache is full
+            if (cache.size() == capacity) {
+                Iterator<Integer> iterator = cache.iterator();
+
+                if (iterator.hasNext()) {
+                    iterator.next(); // First = LRU
+                    iterator.remove();
+                }
+            }
+
+            // Add as most recently used
+            cache.add(value);
+        }
+
+        public int get(int value) {
+
+            if (!cache.contains(value)) {
+                return -1;
+            }
+
+            // Accessed value becomes most recently used
+            cache.remove(value);
+            cache.add(value);
+
+            return value;
+        }
+
+        public void print() {
+            System.out.println(cache);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        LRUCache cache = new LRUCache(3);
+
+        cache.add(1);
+        cache.add(2);
+        cache.add(3);
+
+        cache.print(); // [1, 2, 3]
+
+        cache.get(1);
+
+        cache.print(); // [2, 3, 1]
+
+        cache.add(4);
+
+        cache.print(); // [3, 1, 4]
+    }
+}

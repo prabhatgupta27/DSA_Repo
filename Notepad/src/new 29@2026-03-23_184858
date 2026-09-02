@@ -1,0 +1,39 @@
+
+
+List<String> data = Array.asList("Ram","Shyam","Mohan","Ram");
+
+data.stream().distict().filter(s->s.charAt()== (char)'R').forEach(System.out::println)
+
+data.stream().filter()
+
+HashMap hs = new HashMap()<>;
+
+
+data.stream().forEach(s-> hs.contain(s) ? hs.getorDefault()+1 : hs.put(1))
+
+
+select id,name from employee e on leftjoin employee.id = department.empId where 
+
+select column_list from employee e left outer join departmnet d on e.department_id = d.department_id
+
+
+List<String> data = Arrays.asList(""Ram","Shyam","Mohan","Ram");
+
+data.stream().filter(w->w.charAt(0)=='R').forEach(System.out::println);
+
+data.stream().filter(w->w.startsWith("R")).forEach(System.out.println);
+
+data.stream().filter(w->w.startsWith("R")).count();
+
+List<String> data = Arrays.asList(""Ram","Shyam","Mohan","Ram");
+
+Map<String, Long> wordCount = data.stream().collect(Collectors.groupingBy(w->w,Collectors.counting()))
+
+System.out.println(wordCount);
+
+
+List<String> data = Arrays.asList(""Ram","Shyam","Mohan","Ram");
+
+Map<String, Integer> hm = New HashMap<>();
+
+data.stream().forEach(w->{hs.put(w, hs.getOrDefault(w,0)+1)})

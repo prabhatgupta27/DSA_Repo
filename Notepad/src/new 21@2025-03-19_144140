@@ -1,0 +1,34 @@
+Example 1: Input: s = "()" 
+Output: true Example 2: 
+Input: s = "()[]{}"
+([{]])
+ Output: true
+ 
+ Stack s = new stack();
+ 
+ for(int i=0 ; i<str.length;i++){
+ if(str.charAt(i)='(' || str.charAt('{' || str.charAt('[' ))
+ {
+ s.push(str.charAt(i))
+ }else if(str.charAt(i)== ')' || str.charAt(i)== ')' || str.charAt('[' ){
+ 
+ if(stack.empty() || match(stack.pop()), str.charAt(i))
+ 
+ }
+    
+  
+     
+ }
+ 
+ 
+match(open,close){
+return (open == '(' && )
+
+}
+ 
+ 
+ }
+ 
+({[)}]
+
+({[

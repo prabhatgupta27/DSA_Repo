@@ -1,0 +1,58 @@
+1,2,3,6,7,8,5,9
+
+
+1,2,3,5,6,7,8,9
+
+1,2,10,6,7,8
+
+public static int findMissing(int arr){
+
+for(int i=0; i<arr.length-1; i++){
+
+     if(arr[i] > arr[i+1]){
+	     
+	   return (i+1);
+	 }
+
+}
+
+}
+
+public static int startIndex(int arr,int target){
+
+for(int i=0; i<arr.length-1; i++){
+
+if(arr[i] > target){
+ return i;
+}
+
+}
+
+
+}
+
+public static void swap(arr, start, endIndex,missing_number){
+
+for(int i = end; i>start; i--){
+   arr[i] = arr[i-1];
+
+}
+arr[start] = missing_number;
+}
+
+
+int endIndex = findMissing(arr);
+int missing_number = arr[endIndex];
+
+int start = startIndex(arr, missing_number);
+
+swap(arr, start, end, missing_number);
+
+
+
+
+
+
+jdsfishyruekjyeqwkjekleh8w74hkwhrewjkehi2iy3
+
+

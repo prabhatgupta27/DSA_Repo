@@ -1,0 +1,25 @@
+
+
+void abc(Object obj){}
+
+void abc(String s){}
+
+void abc(int i){}
+
+class userException implement RuntimeException{
+
+ private String name:
+ private String department;
+ 
+ 
+ 
+ 
+ if(age < 18){
+ 
+ new throw(new notValidAgeException("please give age > 18"));
+ 
+ }
+
+
+
+}

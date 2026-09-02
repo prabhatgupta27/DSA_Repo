@@ -1,0 +1,82 @@
+
+write singleton class
+
+public class Singleton{
+	
+	private static Singleton instance;
+	
+	private Singleton(){}
+	
+	public static Singleton getInstance(){
+		if(instance == null){
+			return new Singleton();
+		}
+		return instance;
+	}
+	
+}
+
+write thread safte singleton class
+
+public class Singleton(){
+	private static volatile Singleton instance; // volatile will create it in main memory instead of cache
+	
+	private Singleton(){}
+	
+	public static Singleton getInstance(){
+		if(instance==null){
+			synchronized(Singleton.class){
+				if(instance == null){
+					return new Singeton();
+				}
+			}
+		}
+		return instance;
+	}
+}
+
+@Override
+public boolean equal(Object obj){
+	
+	if(this == obj){
+		return true;
+	}
+	
+	if(obj == null || obj.getClass() != this.getClass()){
+		return false;
+	}
+	
+	Geek geek = (Geek) obj;
+	
+	return (geek.name == this.name && geek.id == this .id);
+	
+}
+
+public int hashCode(){
+	return this.id;
+}
+
+Deadlock Example
+
+public class Deadlock{
+	
+	public static void main(String[] args){
+		final Object resource1 = new Object();
+		final Object resource2 = new Object();
+		
+		Thread t1 = new Thread(()->{
+			synchronized(resource1){
+				System.out.println("Thread 1: holding resource 1")
+			}
+			
+			try{
+				Thread.sleep(100);
+			}catch(InterrupptedException e){}
+			
+			synchronized(resource2){
+				System.out.println("Thread1 : holding resorce 1 & 2)
+			}
+		});
+	}
+	
+}

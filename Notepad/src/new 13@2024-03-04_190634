@@ -1,0 +1,27 @@
+
+
+consumer = new KafkaConsumer<>(props);
+consumer.subscribe(Collections.singletonList<Topic_name>);
+
+while(true){
+
+consumer.poll()
+
+
+}
+
+public class Singleton{
+
+private static Singleton instance;
+
+Private Singleton(){}
+
+public static Singleton getInstance(){
+
+            if(instance == null){
+			    instance = new Singleton();
+			}
+        return instance;
+}
+
+}

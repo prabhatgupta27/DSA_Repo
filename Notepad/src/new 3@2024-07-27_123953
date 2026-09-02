@@ -1,0 +1,20 @@
+lic class Sorting{
+public static void main(String[] args){
+List<String> list=Arrays.asList("Threads", "Bin", "Brush", "Tap", "Fan", "Buld");
+Map<Character,List<String>>group=list.stream()
+.collect(Collectors.groupingBy(s->s.charAt(0));
+List<String> result=groupedList.entrySet().stream().sorted(Map.Entry.comparingByKey())
+.map(entry->{
+char key=entry.getKey();
+List<string> val=entry.getValue();
+return key+"."+String.join(val);
+}}.collect(Collectors.toList());
+result.forEach(System.out::println):
+}}}
+
+
+
+
+
+list.stream().collect(Collectors.groupingBy(Employee::getDepartment(),
+ Collectors.partitioningBy(Employee::getGender().stream().filter(x->x.get("M").count()))));

@@ -1,0 +1,362 @@
+Lowes:
+1. What is Functional interface and lambda experssions?
+2. What java 8 features have you used?
+3. Tell me about the predefined functional interfaces.
+java questions:
+4.		List<String> newList = Arrays.asList("Raj","Joe","Ravi","Raj","Don","Shyam","Joe");
+Remove duplicates and sort it in asscending order
+		List<String> ArrList = Arrays.asList("Threads","Bin","Brush","Tap","Fan","Buld");
+Output:
+. //Map<String,List<String>> result =
+//T -> Thread, Tap
+//B -> Bin, Brush, Bulb
+//F-> Fan
+4. how can we define composite key in JPA
+5. how do you get the results faster from the database?(Database indexing)
+6. Complete details on the previous project
+7. Have you worked on Nosql?
+8.How do you deploy your applications in your project?
+9. If there is a producer which produces the message, will multiple consumers be able to consume from the same topic?
+10. How do you connect the database from springboot
+11. Why is string immutable?what is the main reason behind it?
+
+
+Prabhat Gupta
+  11:08 AM
+public class Singleton {
+    private static volatile Singleton instance;
+    private Singleton() {}
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+
+Vivek G Pai
+  11:28 AM
+newList.stream().sorted(Comparator.naturalrder()).filter(str->hs.add(str)).collect(collectors.toList())
+11:28
+HashSet hs = new HashSet();
+11:30
+List<String> ArrList = Arrays.asList("Threads","Bin","Brush","Tap","Fan","Buld");
+11:31
+ArrList.stream().collect(Collectors.groupingBy(x->x.substring(0,1));
+11:33
+ArrList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting());
+11:33
+List<String> ArrList = Arrays.asList("Threads",""Threads",Bin","Brush","Tap","Fan","Buld");
+11:33
+Threads=2,Bin=1..
+
+
+Vivek G Pai
+  11:50 AM
+Challenges faced in the project
+About the project
+Pa IMI project is a payment assurance project in SCB which basically takes care of all the validations of the incoming tranasaction
+A json request comes to our project through router
+Once it passes through router,
+Router working: the router takes the input message and does the basic structural validations of the json and also finds out if we need to 
+convert the message or not, based on the message type. It checks and it stamps a field msgconv required actually for mt103 and 202cov we get an 
+all the debtor creditor info in single field which needs to be extracted.
+With the help of this field, the adapter gets to know whether conversion is needed and it converts the message
+basically there are around 1200 fields in the json, so we will be mapping directly for some fields but in case of other fields, we use regular
+ expressions.
+As we have to map each and every field to a canonical json. That’s the whole idea
+Processor: this is the heart of the project where it fetches rules from different tables and then it executes the rule one by one on these 
+transaction
+Based on 4 to 5 fields
+Message type, SCB role channel(this is the third party)
+Clrsystp again fedwire swift etc
+Now we have 400 plus rules
+Date name is valid
+Dbtr name is more than 5 chars
+Dbtr address contains 3 lines
+Dbtr address contains country code
+Now finding country code is itself a task as the country code can be at a particular place in the address so we have to check addresses based
+ on many scenarios
+Bête account no is valid, Dbtr unibic
+Bank identification code
+Chinese characters in the address or name
+Account id length
+Anybic length
+Threshold calculation
+Now after all the rules are rules are run, if some rules fail and if these rules are critical, then the messages will go to manual queue which
+ is in the hi, once the user accepts it, it is then sent back to the to systems via notification
+We also have mandatory checks like these fields should there thetre for this role and if it’s not there, then directly many with the error we
+ send to the to systems. Doesn’t go to many
+Performance improvement
+Using mvl match key
+Using cache for all the tables
+Indexing the table such that the query returns the result faster
+ Challenges faced 1
+Due to some reason in production the cache was deleted, all the data of few lakhs of records were lost.
+For that reason immediately we developed an endpoint to reload the main transaction cache (as functionality was dependent on it) with all the 
+necessary conditions we fetched the data from the db and did a put all into cache, hence cache was retrieved and then the cers was back up.
+Challenges faced 2
+New service not starting readiness liveliness
+Once I had created a new service pa-to-eod recon basically what it does is it takes the file as an input which has the transaction details, each 
+line is fetched and it’s then split to get all the fields and then based on the details present in the DB, we used to compare the transaction 
+status
+The problèm was that I had built the application running fine and then deployed it in the container in Ocp, it was statrting up in the local
+ without any issues but the container was not starting, it was showing failure all the time, I tried and tried to understand what the issue was but later then I got to know the error in the container telling me that the applica is not ready. Then I thought it will be using readiness and liveliness probe to check the container status . After that I added actuator dependency and then the container started
+Challenges faced:
+Issues faced while we release
+Many a times we face script issues
+Code issues checked in by devs
+Production issues: mainly on the rules we get. Because each rule will at least T
+50 lines and can go up to 200
+Even a single logic miss would cause the rule to fail or pass unexpectedly in that case production issues are raised ehivh will be sent as a high
+ priority CRs
+First we debug the issue,check the code, modify the code and see if it’s not breaking existing functioning, do manual testing one round and then 
+deploy to sit there regression testing will be performed and additional scenarios are added for testing and after it’s padded, the scripts are 
+deployed to production
+New service not starting readiness liveliness
+Once I had created a new service pa-to-eod recon basically what it does is it takes the file as an input which has the transaction details, 
+each line is fetched and it’s then split to get all the fields and then based on the details present in the DB, we used to compare the transaction
+ status
+The problèm was that I had built the application running fine and then deployed it in the container in Ocp, it was statrting up in the local 
+without any issues but the container was not starting, it was showing failure all the time, I tried and tried to understand what the issue was 
+but later then I got to know the error in the container telling me that the applica is not ready. Then I thought it will be using readiness and 
+liveliness probe to check the container status . After that I added actuator dependency and then the container started
+
+
+List<String> ArrList = Arrays.asList("Threads","Bin","Brush","Tap","Fan","Buld");
+Output:
+. //Map<String,List<String>> result =
+//T -> Thread, Tap
+//B -> Bin, Brush, Bulb
+//F-> Fan
+
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> arrList = Arrays.asList("Threads", "Bin", "Brush", "Tap", "Fan", "Buld");
+
+        Map<Character, List<String>> result = arrList.stream()
+                .collect(Collectors.groupingBy(s -> s.charAt(0)));
+
+       // result.forEach((k, v) -> System.out.println(k + " -> " + String.join(", ", v)));
+	           result.forEach((k, v) -> System.out.println(k + " --> "+ v));
+
+    }
+}
+
+B -> Bin, Brush, Buld
+F -> Fan
+T -> Threads, Tap
+
+B --> [Bin, Brush, Buld]
+T --> [Threads, Tap]
+F --> [Fan]
+
+
+	List<String> newList = Arrays.asList("Raj","Joe","Ravi","Raj","Don","Shyam","Joe");
+Remove duplicates and sort it in asscending order
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> newList = Arrays.asList("Raj", "Joe", "Ravi", "Raj", "Don", "Shyam", "Joe");
+
+        List<String> uniqueSorted = newList.stream()
+                .distinct() // Remove duplicates
+                .sorted()   // Sort in ascending order
+                .collect(Collectors.toList());
+
+        System.out.println(uniqueSorted);
+    }
+}
+
+[Don, Joe, Raj, Ravi, Shyam]
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> newList = Arrays.asList("Raj", "Joe", "Ravi", "Raj", "Don", "Shyam", "Joe");
+
+        List<String> uniqueSorted = newList.stream()
+                .distinct() // Remove duplicates
+                .sorted((s1,s2)-> s2.compareTo(s1))   // Sort in descending order
+                .collect(Collectors.toList());
+
+        System.out.println(uniqueSorted);
+    }
+}
+
+[Shyam, Ravi, Raj, Joe, Don]
+
+
+
+public class DeadlockExample {
+    public static void main(String[] args) {
+        final Object resource1 = new Object();
+        final Object resource2 = new Object();
+
+        Thread thread1 = new Thread(() -> {
+            synchronized (resource1) {
+                System.out.println("Thread 1: Holding resource 1");
+
+                try { Thread.sleep(100); } catch (In
+				terruptedException e) {}
+
+                synchronized (resource2) {
+                    System.out.println("Thread 1: Holding resource 1 and 2");
+                }
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            synchronized (resource2) {
+                System.out.println("Thread 2: Holding resource 2");
+
+                try { Thread.sleep(100); } catch (InterruptedException e) {}
+
+                synchronized (resource1) {
+                    System.out.println("Thread 2: Holding resource 1 and 2");
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+}
+
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        String str = "aabbccddeeffg";
+        char firstNonRepeatedChar = findFirstNonRepeatedChar(str);
+        System.out.println("First non-repeated character: " + firstNonRepeatedChar);
+    }
+
+    public static char findFirstNonRepeatedChar(String str) {
+        // Create a LinkedHashMap to maintain the order of characters
+        Map<Character, Integer> charCountMap = new LinkedHashMap<>();
+
+        // Count occurrences of each character
+        str.chars().forEach(ch -> charCountMap.put((char) ch, charCountMap.getOrDefault((char) ch, 0) + 1));
+	//Diffrence	
+		// APPROACH A: WITHOUT mapToObj (Your Original Code)
+			str.chars().forEach(ch -> 
+				charCountMap.put(
+					(char) ch, 
+					charCountMap.getOrDefault((char) ch, 0) + 1
+				)
+			);
+
+			// APPROACH B: WITH mapToObj
+			str.chars()
+			   .mapToObj(ch -> (char) ch)
+			   .forEach(ch -> 
+				   charCountMap.put(ch, charCountMap.getOrDefault(ch, 0) + 1)
+			   );
+
+        // Find the first character with count 1
+        return charCountMap.entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse('\0'); // Return '\0' if no non-repeated character is found
+    }
+}
+
+find second highest product version
+
+new Product("Mac", 12.5), new Product("Mac", 11.9), new Product("Mac", 10.5), 
+
+new Product("Dell", 7.7), new Product("Dell", 7.9), new Product("Dell", 11.5)
+
+new Product("hp", 7.7), new Product("hp", 11.9), new Product("hp", 11.5)
+
+list.stream().collect(Collector.grouping(Product::getProduct(),collector.toList())).
+
+
+
+  String s = "abcadbdeg";
+    
+    String larstring = "";
+    
+    String currentS= "";
+    int start =0, end =0;
+    for( int i =0; i < s.length(); i++) {
+        
+        char ch = s.charAt(i);
+        if( currentS.contains(s.subSequence(i, i+1))) {
+            
+            if(currentS.length() > larstring.length()) {
+                larstring = currentS;
+            }
+            int pos = currentS.indexOf(ch);
+            currentS = currentS.substring(pos+1);
+        }
+        currentS = currentS + ch;
+    }
+    
+    if(currentS.length() > larstring.length()) {
+        System.out.println(currentS);
+    } else {
+        System.out.println(larstring);
+    }
+	
+	
+	
+	import java.util.HashMap;
+import java.util.Map;
+
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.length() == 0) return 0;
+
+        int maxLength = 0;
+        int left = 0; // Left boundary of the sliding window
+        
+        // Map to store the character and its most recent index
+        Map<Character, Integer> charIndexMap = new HashMap<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            char currentChar = s.charAt(right);
+
+            // If the character is already in the window, shrink the window from the left
+            if (charIndexMap.containsKey(currentChar)) {
+                // Move 'left' to the right of the old character's position
+                left = Math.max(left, charIndexMap.get(currentChar) + 1);
+            }
+
+            // Update or add the current character's index
+            charIndexMap.put(currentChar, right);
+
+            // Calculate the window size and update max length
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        Solution solver = new Solution();
+        String s = "abcadbdeg";
+        System.out.println("Length of longest unique substring: " + solver.lengthOfLongestSubstring(s));
+    }
+}
+
+
+Final Output: 4 (The longest substrings are "bcad", "cadb", and "bdeg", all of length 4).

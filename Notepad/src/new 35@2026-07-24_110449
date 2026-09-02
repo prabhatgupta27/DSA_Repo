@@ -1,0 +1,101 @@
+
+nums = [1, -1, 2, 1, -1], k = 2
+
+Subarrays Identified during Execution:At i = 2 (currentPrefixSum = 2), target 0 had frequency 2
+:Subarray 1: nums[0...2] $\rightarrow$ [1, -1, 2] (sum = 2)Subarray 2: nums[2...2] $\rightarrow$ [2] (sum = 2)
+At i = 3 (currentPrefixSum = 3), target 1 had frequency 1:Subarray 3: nums[1...3] $\rightarrow$ [-1, 2, 1] (sum = 2)
+At i = 4 (currentPrefixSum = 2), target 0 had frequency 2
+:Subarray 4: nums[0...4] $\rightarrow$ [1, -1, 2, 1, -1] (sum = 2)
+Subarray 5: nums[2...4] $\rightarrow$ [2, 1, -1] (sum = 2)
+
+Final Output:$$\mathbf{\text{Count} = 5}$$
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> prefixSumFreq = new HashMap<>();
+        
+        // Base case: A prefix sum of 0 has occurred once before starting iteration
+        prefixSumFreq.put(0, 1);
+
+        int currentPrefixSum = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            currentPrefixSum += num;
+            int targetPrefixSum = currentPrefixSum - k;
+
+            // If (currentPrefixSum - k) exists in map, add its frequency to total count
+            if (prefixSumFreq.containsKey(targetPrefixSum)) {
+                count += prefixSumFreq.get(targetPrefixSum);
+            }
+
+            // Store/update frequency of current prefix sum
+            prefixSumFreq.put(currentPrefixSum, prefixSumFreq.getOrDefault(currentPrefixSum, 0) + 1);
+        }
+
+        return count;
+    }
+}
+
+
+Let's rebuild LeetCode 17: Letter Combinations of a Phone Number specifically using a HashMap<Character, String> for explicit key-value mapping!
+
+1. Understanding the Core Problem
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class Solution {
+
+    // HashMap to store character key to letters value mapping
+    private static final Map<Character, String> phoneMap = new HashMap<>();
+
+    static {
+        phoneMap.put('2', "abc");
+        phoneMap.put('3', "def");
+        phoneMap.put('4', "ghi");
+        phoneMap.put('5', "jkl");
+        phoneMap.put('6', "mno");
+        phoneMap.put('7', "pqrs");
+        phoneMap.put('8', "tuv");
+        phoneMap.put('9', "wxyz");
+    }
+
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<>();
+
+        if (digits == null || digits.isEmpty()) {
+            return result;
+        }
+
+        backtrack(digits, 0, new StringBuilder(), result);
+        return result;
+    }
+
+    private void backtrack(String digits, int index, StringBuilder currentPath, List<String> result) {
+        // Base Case: Full path formed matching input length
+        if (index == digits.length()) {
+            result.add(currentPath.toString());
+            return;
+        }
+
+        char currentDigit = digits.charAt(index);
+        String letters = phoneMap.get(currentDigit);
+
+        if (letters != null) {
+            for (int i = 0; i < letters.length(); i++) {
+                char ch = letters.charAt(i);
+
+                currentPath.append(ch);                             // 1. Choose
+                backtrack(digits, index + 1, currentPath, result);  // 2. Explore
+                currentPath.deleteCharAt(currentPath.length() - 1); // 3. Backtrack
+            }
+        }
+    }
+}

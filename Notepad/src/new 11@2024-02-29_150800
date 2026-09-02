@@ -1,0 +1,52 @@
+
+var array = [1,2,3,4,5,6,3,4];
+
+
+array.stream().distinct().collect(collectors.gr)
+
+
+class Singelton{
+	
+	private static volatile Singelton instance;
+	
+	private Singelton(){}
+	
+	public static Singelton getInstance(){
+		
+		if(instance == null){
+			
+			synchronized(Singelton.class){
+				if(instance == null){
+			       instance = new Singelton();
+				}
+			}
+			
+		}
+		
+		return instance;
+		
+	}
+	
+}
+
+try{
+	
+	Object resource1 = new Object();
+}catch(RuntimeException e){
+	
+	
+}catch(IOException e){
+	
+	
+}catch(Exception e){
+	
+	
+	
+}
+
+
+name sal,deapartmentid
+
+employees.stream()
+
+select A.department,max(A.salary) from department A join Employee B  on A.deptID = B.deptid

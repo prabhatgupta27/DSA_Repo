@@ -1,0 +1,11 @@
+Q. Given a list of employee objects containing id, name, department, and salary, write a
+ Java 8+ method using Streams to find the second-highest distinct salary in each department.
+Return the result as Map<String, Optional<Double>>, where the key is the department.
+
+
+Map<String, Optional<Double>> secondHigh = emp.stream().collect(Collectors.groupingBy(
+
+
+   Employee::getDepartment, Collectors.collectingAndThen(Collectors.mapping(
+  Employee::getSalary, Collectors.toSet()), s -> s.stream()
+  .sorted(s->comparator.reverseOrder()).skip(1).findFisrt())));

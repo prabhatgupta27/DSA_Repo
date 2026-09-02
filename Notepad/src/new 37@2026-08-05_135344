@@ -1,0 +1,250 @@
+# Problem: Path Sum in a Binary Tree
+
+ 
+
+You are given the root of a binary tree where each node contains an integer value (which may be positive, negative, or zero) and an integer `K`.
+
+ 
+
+Determine whether there exists **at least one root-to-leaf path** such that the sum of the values of all nodes along that path is exactly equal to `K`.
+
+ 
+
+A **root-to-leaf path** is a path that starts at the root node and ends at any leaf node. A **leaf node** is a node with no left or right child.
+
+ 
+
+Return `true` if such a path exists; otherwise, return `false`.
+
+ 
+
+## Function Signature (Java)
+
+ 
+
+```java
+
+boolean hasPathSum(TreeNode root, int k)
+
+```
+
+ 
+
+## Example 1
+
+ 
+
+**Input**
+
+ 
+
+```
+
+          5
+
+        /   \
+
+       4     8
+
+      /     / \
+
+     11    13  4
+
+    /  \         \
+
+   7    2         1
+
+ 
+
+K = 22
+
+```
+
+ 
+
+**Output**
+
+ 
+
+```
+
+true
+
+```
+
+ 
+
+**Explanation**
+
+ 
+
+The path `5 → 4 → 11 → 2` has a sum of `22`.
+
+ 
+
+---
+
+ 
+
+## Example 2
+
+ 
+
+**Input**
+
+ 
+
+```
+
+      1
+
+     / \
+
+    2   3
+
+ 
+
+K = 5
+
+```
+
+ 
+
+**Output**
+
+ 
+
+```
+
+false
+
+```
+
+
+
+
+**Explanation**
+
+ 
+
+There is no root-to-leaf path whose sum is equal to `5`.
+
+ 
+
+---
+
+ 
+
+## Constraints
+
+ 
+
+- `0 <= Number of Nodes <= 100,000`
+
+- `-1000 <= Node.val <= 1000`
+
+- `-1,000,000 <= K <= 1,000,000`
+
+ 
+
+---
+
+ 
+
+## Expected Complexity
+
+ 
+
+- **Time Complexity:** `O(n)`
+
+- **Auxiliary Space:** `O(h)`, where `h` is the height of the tree.
+
+
+
+public boolean hasSum(TreeNode root, int target, List<Integer> path){
+	
+	if (root == null){
+		return false;
+	}
+	
+	path.add(root.val);
+	
+	if(root.left == null || root.right == null){
+		if(target == root.val){
+			s.out.println(path);
+			return true;
+		}
+	}
+	
+	 if(hasSum(root.left, target-root.val, path) || hasSum(root.right,target-root.val, path)){
+		 return true;
+	 }
+	 
+	 path.remove(path.size()-1);
+	 return false;
+}
+
+
+with input
+
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+public class Main
+{
+    
+    public static boolean hasSum(TreeNode root, int target, List<Integer> path){
+	
+	if (root == null){
+		return false;
+	}
+	
+	path.add(root.val);
+	
+	if(root.left == null || root.right == null){
+		if(target == root.val){
+			System.out.println(path);
+			return true;
+		}
+	}
+	
+	 if(hasSum(root.left, target-root.val, path) || hasSum(root.right,target-root.val, path)){
+		 return true;
+	 }
+	 
+	 path.remove(path.size()-1);
+	 return false;
+}
+	public static void main(String[] args) {
+		  // Create the tree
+        TreeNode root = new TreeNode(5);
+
+        root.left = new TreeNode(4);
+        root.right = new TreeNode(8);
+
+        root.left.left = new TreeNode(11);
+
+        root.left.left.left = new TreeNode(7);
+        root.left.left.right = new TreeNode(2);
+
+        root.right.left = new TreeNode(13);
+        root.right.right = new TreeNode(4);
+
+        root.right.right.right = new TreeNode(1);
+
+        int target = 22;
+
+        List<Integer> path = new ArrayList<>();
+
+        boolean result = hasSum(root, target, path);
+
+        System.out.println("Result: " + result);
+	}
+}

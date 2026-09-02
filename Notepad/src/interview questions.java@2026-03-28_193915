@@ -1,0 +1,232 @@
+
+public class Singleton {
+    private static volatile Singleton instance; // volatile => it will create in main memory instead of cache
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+
+Equals method of String
+
+public boolean equals(Object anObject) {
+    if (this == anObject) {
+        return true;
+    }
+    if (anObject instanceof String) {
+        String anotherString = (String)anObject;
+        int n = value.length;
+        if (n == anotherString.value.length) {
+            char v1[] = value;
+            char v2[] = anotherString.value;
+            int i = 0;
+            while (n-- != 0) {
+                if (v1[i] != v2[i])
+                        return false;
+                i++;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+
+String str1 = "Hello";
+String str2 = "Hello";
+String str3 = new String("Hello");
+
+System.out.println(str1.equals(str2)); // Output: true
+System.out.println(str1.equals(str3)); // Output: true
+
+
+
+// Java program to illustrate  
+// how hashCode() and equals() methods work 
+import java.io.*; 
+  
+class Geek  
+{ 
+      
+    public String name; 
+    public int id; 
+          
+    Geek(String name, int id)  
+    { 
+              
+        this.name = name; 
+        this.id = id; 
+    } 
+      
+    @Override
+    public boolean equals(Object obj) 
+    { 
+          
+    // checking if both the object references are  
+    // referring to the same object. 
+    if(this == obj) 
+            return true; 
+          
+        // it checks if the argument is of the  
+        // type Geek by comparing the classes  
+        // of the passed argument and this object. 
+        // if(!(obj instanceof Geek)) return false; ---> avoid. 
+        if(obj == null || obj.getClass()!= this.getClass()) 
+            return false; 
+          
+        // type casting of the argument.  
+        Geek geek = (Geek) obj; 
+          
+        // comparing the state of argument with  
+        // the state of 'this' Object. 
+        return (geek.name == this.name && geek.id == this.id); 
+    } 
+      
+    @Override
+    public int hashCode() 
+    { 
+          
+        // We are returning the Geek_id  
+        // as a hashcode value. 
+        // we can also return some  
+        // other calculated value or may 
+        // be memory address of the  
+        // Object on which it is invoked.  
+        // it depends on how you implement  
+        // hashCode() method. 
+        return this.id; 
+    } 
+      
+} 
+
+
+
+
+
+
+public class DeadlockExample {
+    public static void main(String[] args) {
+        final Object resource1 = new Object();
+        final Object resource2 = new Object();
+
+        Thread thread1 = new Thread(() -> {
+            synchronized (resource1) {
+                System.out.println("Thread 1: Holding resource 1");
+
+                try { Thread.sleep(100); } catch (InterruptedException e) {}
+
+                synchronized (resource2) {
+                    System.out.println("Thread 1: Holding resource 1 and 2");
+                }
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            synchronized (resource2) {
+                System.out.println("Thread 2: Holding resource 2");
+
+                try { Thread.sleep(100); } catch (InterruptedException e) {}
+
+                synchronized (resource1) {
+                    System.out.println("Thread 2: Holding resource 1 and 2");
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+}
+
+
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> salaries = Arrays.asList(10000, 20000, 30000, 40000, 50000);
+        int n = 3; // Get the nth highest salary 
+
+        int nthHighestSalary = getNthHighestSalary(salaries, n);
+        System.out.println("The " + n + "th highest salary is: " + nthHighestSalary);
+    }
+
+    public static int getNthHighestSalary(List<Integer> salaries, int n) {
+        return salaries.stream()
+                .distinct()
+                .sorted((s1, s2) -> s2 - s1)
+                .skip(n - 1)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Nth highest salary not found"));
+    }
+}
+
+
+
+
+
+In JPA (Java Persistence API), you can define a composite primary key using the @EmbeddedId annotation or the @IdClass annotation.
+
+Here's an example using @EmbeddedId:
+
+Define an embeddable class for the composite key:
+java
+Copy code
+@Embeddable
+public class MyCompositeKey implements Serializable {
+    private Long keyPart1;
+    private Long keyPart2;
+
+    // constructors, getters, setters, equals, and hashCode methods
+}
+Use the embeddable class in your entity class with the @EmbeddedId annotation:
+java
+Copy code
+@Entity
+public class MyEntity {
+    @EmbeddedId
+    private MyCompositeKey id;
+
+    // other fields
+
+    // constructors, getters, setters
+}
+Alternatively, you can use @IdClass:
+
+Define a class for the composite key:
+java
+Copy code
+public class MyCompositeKey implements Serializable {
+    private Long keyPart1;
+    private Long keyPart2;
+
+    // constructors, getters, setters, equals, and hashCode methods
+}
+Use the @IdClass annotation in your entity class to specify the composite key class:
+java
+Copy code
+@Entity
+@IdClass(MyCompositeKey.class)
+public class MyEntity {
+    @Id
+    private Long keyPart1;
+
+    @Id
+    private Long keyPart2;
+
+    // other fields
+
+    // constructors, getters, setters
+}
+Both approaches allow you to define composite keys in JPA. The choice between @EmbeddedId and @IdClass depends on your preference and the specific requirements of your application.

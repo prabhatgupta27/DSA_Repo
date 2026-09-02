@@ -1,0 +1,17 @@
+num1 num2
+
+1,2,1,5,9 2 
+
+s1="shrikant"                    
+s2 = new String("shrikant")      
+s3 = "shrikant"                  
+s4 = new String("shrikant")   
+
+Linklist
+
+add
+get
+insert 
+remove
+
+

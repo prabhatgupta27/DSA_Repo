@@ -1,0 +1,19 @@
+
+select * from Employee where group by employeeId having count(*) <=1
+
+select distint employeeId from Employee;
+
+select * from Employee E join Employee B where E.salary =B.salary
+
+select * from Employee E , Employee B where E.salary=B.salarytg
+
+
+Array.stream().map(n->n).max(Map.Entry.compareByVAlue).findFirst().orElse("\0");
+
+Array.parallelStream()
+
+Map<Character, Integer> occ = new LisnkedHashMap<>();
+
+str.chars().forEach(c -> occ.put((char)c,occ.getOrDefault((char)c,0)+1)
+
+return occ.entrySet().stream().filter(v->v.getValue()==1).map(Map.Entry::getKey).findFirst().orElse('\0');

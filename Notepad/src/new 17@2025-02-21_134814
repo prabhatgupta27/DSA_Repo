@@ -1,0 +1,8 @@
+
+
+Region, country, location
+
+select region_name, country_name, location_name from region R JOIN Country c on r.region_id = c.region_id JOIN Location L on country_id=L.country_id
+
+
+select region_name, country_name, location_name from Region R JOIN Country C on R.region_id = C.region_id JOIN Location L on country_id.=L.country_id

@@ -1,0 +1,8 @@
+
+
+String s = new String("prabhat");
+
+s.append("Gupta");
+
+"Gupta","Gupta","Gupta","Prabhat"
+

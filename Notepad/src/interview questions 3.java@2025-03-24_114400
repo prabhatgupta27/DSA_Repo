@@ -1,0 +1,136 @@
+Rahul Chunamuri
+
+1) singelton design pattern with implementation
+2) that should be thread safe.
+3) write 2 thread we have to access that singleton object
+4) in a array sum of array should be equal to target
+5) sum of 3 values equal to target and return it's index
+6) basic annotation and http methods
+7) optional class 
+8) 
+
+Gnanaprakash Selvakumar
+
+1. Tell me about your previous project
+2. In given sorted array ,there is one non sorted integer .Find that and place that in right position in array so it is fully sorted.
+   Note: Without sorting
+Input:[1,2,4,6,7,9,5,10] ,Output [1,2,4,5,6,7,9,10]
+3. Find highest integer from list using streams.
+4.Explain how to create Rest APi
+5.How to secure Rest API's.
+6.Explain JWT implementation
+7.Are you familiar with Web Flux?
+8.How to deploy spring boot application with docker.
+
+
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 5, 3, 7, 2, 8, 6, 4);
+        int highest = numbers.stream()
+                             .mapToInt(Integer::intValue)
+                             .max()
+                             .orElseThrow(); // You can handle this differently based on your requirement
+        System.out.println("Highest number: " + highest);
+    }
+}
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 5, 3, 7, 2, 9, 4, 6, 8);
+        Integer secondHighest = numbers.stream()
+                .sorted((s1,s2)-> s2-s1)
+                .skip(1)
+                .findFirst()
+                .orElseThrow(); // Throws NoSuchElementException if the list has fewer than 2 elements
+        System.out.println("The second-highest integer is: " + secondHighest);
+    }
+}
+
+
+
+In given sorted array ,there is one non sorted integer .Find that and place that in right position in array so it is fully sorted.
+   Note: Without sorting
+Input:[1,2,4,6,7,9,5,10] ,Output [1,2,4,5,6,7,9,10]
+
+public class Main {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 4, 6, 7, 9, 5, 10};
+        placeInRightPosition(nums);
+        System.out.println(Arrays.toString(nums));
+    }
+
+    private static void placeInRightPosition(int[] nums) {
+        int index = findUnsortedIndex(nums);
+        int unsortedNum = nums[index];
+        int insertIndex = findInsertIndex(nums, unsortedNum);
+        shiftElements(nums, insertIndex, index);
+        nums[insertIndex] = unsortedNum;
+    }
+
+    private static int findUnsortedIndex(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] > nums[i + 1]) {
+                return i + 1;
+            }
+        }
+        return -1; // Array is already sorted
+    }
+
+    private static int findInsertIndex(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > target) {
+                return i;
+            }
+        }
+        return nums.length; // Target is the largest element
+    }
+
+    private static void shiftElements(int[] nums, int start, int end) { i=6 6>4 i--
+        for (int i = end; i > start; i--) {
+            nums[i] = nums[i - 1];
+        }
+    }
+}
+
+
+
+
+public class NumberPrinter {
+    private static final int MAX_COUNT = 10;
+    private static int number = 1;
+
+    public static void main(String[] args) {
+        Thread oddThread = new Thread(() -> {
+            while (number <= MAX_COUNT) {
+                synchronized (NumberPrinter.class) {
+                    if (number % 2 != 0) {
+                        System.out.println("Thread 1: " + number);
+                        number++;
+                    }
+                }
+            }
+        });
+
+        Thread evenThread = new Thread(() -> {
+            while (number <= MAX_COUNT) {
+                synchronized (NumberPrinter.class) {
+                    if (number % 2 == 0) {
+                        System.out.println("Thread 2: " + number);
+                        number++;
+                    }
+                }
+            }
+        });
+
+        oddThread.start();
+        evenThread.start();
+    }
+}

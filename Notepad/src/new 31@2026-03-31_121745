@@ -1,0 +1,89 @@
+There are n petrol pumps along a circular route, where the amount of petrol at the ith station is petrol[I]. 
+You have a car with an unlimited petrol tank and it costs cost[i] of petrol to travel from the ith station to its 
+next (i + 1)th station.
+You begin the journey with an empty tank at one of the petrol stations. Given two integer arrays petrol and cost,
+ return the starting
+ petrol station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1
+ . If there exists a solution, 
+ it is guaranteed to be unique.
+from Pragati Chaurasia to Everyone12:12
+Input: petrol = [1,2,3,4,6], cost = [3,4,5,1,2] Output: 3
+
+Input: petrol = [1,2,3,4,1], cost = [3,4,5,1,6]
+
+
+                             public int circular(int[] p, int[] c){
+							 
+							     int total = 0;                                                              0-2=> -2          -2+3=1               1+
+								 int current = 0;
+								 int start = 0;
+								 
+								 
+								 for(int i=0; i<p.length; i++){                            
+								 
+								 int d = p[i]-c[i];                  d= 1-3 => -2         2-4 => -2          3-5 => -2            4-1=> 3          6-2 => 4
+								 
+								 total += d;                         0+=(-2) => -2   -2   2+=(-2) =>  4    0   4 += (-2) => 6       6+=-(3)=> 3    3+=-(4) => -1
+								 current += d;                         0 +=-2 => -2        0 +=-2 => -2       0 +=-2 => -2          0+=3 => 3        3+=4   => 7
+								 
+								 if(current < 0){                         -2 < 0           -2<0                  -2<0                3<0             7<0
+								    start = i+1;                           s = 0+1=> 1     s = 2;                s=3
+									current = 0;                          0                c=0                   c=0
+								 
+								 }
+								 
+								 }
+								 
+								 return total >= 0 ? start : -1;  -1>=0? -1
+							 
+							 }
+							 
+							 public class Calculator{
+							 
+							 punlic int add(int a, int b){
+							     return a+b;
+							 
+							 }
+							 
+							 }
+							 
+							  class CalculatorTest{
+							  
+							  @Test
+							  void addTest(){
+							  
+							   Calculator c = new Calculator();
+							   int result = c.add(2,3)
+							   
+							   assertEquals(5, result);
+							  
+							  }
+							  
+							  }
+							  
+							  
+							  
+public int canCompleteCircuit(int[] petrol, int[] cost) {
+
+    int totalPetrol = 0;
+    int currTank = 0;
+    int start = 0;
+
+    for (int i = 0; i < petrol.length; i++) {
+
+        int diff = petrol[i] - cost[i];
+
+        totalPetrol += diff;
+        currTank += diff;
+
+        if (currTank < 0) {
+            start = i + 1;
+            currTank = 0;
+        }
+    }
+
+    return totalPetrol >= 0 ? start : -1;
+}							  
+
+
+

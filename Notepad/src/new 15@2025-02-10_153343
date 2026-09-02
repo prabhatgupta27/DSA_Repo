@@ -1,0 +1,28 @@
+
+@Entity
+class Emp{
+
+@Embebbed Id
+String RollNo;
+
+
+}
+
+
+class Prototype{
+
+Employee emp = new Employee();
+emp.setValue(name);
+emp.setValue(salray)
+
+
+public static Cloneable getPrototype{
+
+Employee e = emp.clone()
+returen e;
+
+
+
+}
+
+}

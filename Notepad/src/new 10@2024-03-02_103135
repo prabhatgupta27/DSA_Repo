@@ -1,0 +1,35 @@
+
+1)tell me about your current project?
+2)explain executor framework?
+3)Convert List of String into Boolean List using streams input is ("true", "false", "0", "1", "TRUE")
+4) write a logic for multithread if any one of the thread is done with task close the execution.
+5)In given sorted array ,there is one non sorted integer .Find that and place that in right position in array so it is fully sorted.
+   Note: Without sorting
+Input:[1,2,4,6,7,9,5,10] ,Output [1,2,4,5,6,7,9,10]
+
+6) tell me about design patterns
+7) what is kafka and it's internal implementation?
+8) how you will create consumer in kafka?
+9) what is elastic search and how it can be implemented?
+
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> listOfStrings = Arrays.asList("true", "false", "0", "1", "TRUE");
+
+        List<Boolean> listOfBooleans = listOfStrings.stream()
+                .map(s -> s.equalsIgnoreCase("true") || s.equals("1"))
+                .collect(Collectors.toList());
+
+        System.out.println(listOfBooleans);
+    }
+}
+
+
+List<Boolean> list = listofString.stream().map(s-> s.equalIgnoreCase("true") || s.equals("1")).collect(Collectors.toList());
+
+l.stream().map()filter()

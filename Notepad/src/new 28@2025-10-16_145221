@@ -1,0 +1,55 @@
+nput: arr[] = [1, 2, 0, 4, 3, 0, 5, 0]
+ 
+move all the zeros to the end of the array
+ 
+ 1,2,4,3,5,0,0,0
+ 
+ 1,2,4,0,3,0,5,0
+ 
+ 
+ Class Parent {
+
+	void show(){
+
+		System.out.println("Parent show is called");
+
+	}
+
+}
+ 
+Class Child extends Parent{
+
+	void show(){
+
+		System.out.println("Child show is called");
+
+	}
+
+}
+ 
+Class Other {
+
+	public static void main(String []args){
+
+		Child c = new Parent();
+
+		c.show();
+
+		Parent p = new Child();
+
+		p.show();
+
+	}
+
+}
+ 
+ 
+ public bool checking() {
+String first = new String ("ABC");
+String second = new String ("ABC");
+String third = second;
+if (first == third)
+return true;
+else
+return false;
+}

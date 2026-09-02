@@ -1,0 +1,143 @@
+Code:
+
+class Parent {
+ 
+    Parent (){
+
+        this("Constructor");
+
+        System.out.println("Parent class Default Constructor");
+
+    }
+ 
+    Parent (String s){
+
+        System.out.println("Parent Class Param  "+s);
+
+    }
+
+}
+ 
+public class Child extends Parent {
+ 
+    Child (){
+
+        super("Constructor");
+
+        System.out.println("Child Class Default Constructor");
+
+    }
+ 
+    Child (String s){
+
+        System.out.println("Child Class Param Constructor "+s);
+
+    }
+ 
+    public static void main(String[] args) {
+
+        Child obj = new Child();
+
+    }
+ 
+}
+output
+ Parent Class Param Constructor
+ Child Class Default Constructor
+ 
+ 
+ Print Odd or Even Numbers of a Collection Using Custom Iterator. Write the Custom iterator in such a way it should work for any collection.
+ 
+Code :
+ 
+public class PrintAternateElements {
+    public static void main(String args[]) {
+        List studentList = new ArrayList<>();
+        studentList.add("Krisha");
+        studentList.add("Aarya");
+        studentList.add("Tisha");
+        studentList.add("Ishana");
+        studentList.add("Aditya");
+ 
+ 
+        Iterator listIterator = //Initialize the Iterator
+        while(listIterator.hasNext()){
+            System.out.println(listIterator.next());
+        }
+ 
+        Map studentMap = new HashMap();
+        studentMap.put(1, "Krisha");
+        studentMap.put(2, "Aarya");
+        studentMap.put(3, "Tisha");
+        studentMap.put(4, "Ishana");
+        studentMap.put(5, "Aditya");
+ 
+        Iterator mapIterator = //Initialize the Iterator
+        while(mapIterator.hasNext()){
+            System.out.println(mapIterator.next());
+        }
+    }
+}
+
+public class OddEven<T> implements Iterator<T>{
+	
+	private final Iterator<T> iterator;
+	private final boolean even;
+	private int index = 0;
+	private T nextElement;
+	
+	public OddEven(Iterator<T> iterator, boolean even){
+		this.iterator = iterator;
+		this.even = even;
+		process();
+		
+	}
+	
+	private void process(){
+		
+		nextElement = null;
+		
+		while(iterator.hasNext()){
+			T curr = iterator.next();
+			
+			if((index % 2 == 0) && even){
+				nextElement = curr;
+				index++;
+				return;
+			}
+			index++;
+		}
+	}
+	
+}
+
+Consider a database schema for an online bookstore with the following tables. Write a SQL query to find the top 5 bestselling books (based on the total number of copies sold) along with their titles and the total number of copies sold for each book.
+ 
+Books:
+book_id			title			author			genre	price
+1			To Kill a Mockingbird	Harper Lee		Fiction	10.99
+2			1984				George Orwell	Fiction	9.99
+3			The Great Gatsby		F.Fitzgerald	Fiction	11.5
+4			The Catcher in the Rye J.D. Salinger	Fiction	12.25
+5			Pride and Prejudice	Jane Austen		Fiction	8.99
+6			The Hobbit			J.R.R. Tolkien	Fantasy	14.99
+7			Harry Potter			J.K. Rowling	Fantasy	13.75
+8			The Da Vinci Code	Dan Brown		Mystery	11.99
+9			Gone with the Wind	M.Mitchell		Romance	10.5
+10			The Alchemist		Paulo Coelho	Fiction	9.25
+ 
+Orders:
+order_id customer_id book_id	quantity	order_date
+1			101			1		 2			2023-01-05
+2			102			2		3			2023-01-10
+3			103			3		3			2023-01-15
+4			104			4		2			2023-01-20
+5			105			5		3			2023-01-25
+6			101			1		1			2023-02-05
+7			102			2		2			2023-02-10
+8			103			6		3			2023-02-15
+9			104			3		1			2023-02-20
+10			105			10		2			2023-02-25
+
+select b.title, SUM(o.quantity) totalQuantity from Book b JOIN Order o
+ON b.book_id = o.book_id GROUP BY b.book_id, b.title ORDER BY totalQuantity DESC LIMIT 5;

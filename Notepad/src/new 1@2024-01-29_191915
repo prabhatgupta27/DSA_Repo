@@ -1,0 +1,54 @@
+import java.util.Arrays;
+
+public class MinPlatforms {
+    public static void main(String[] args) {
+        String[] arr = {"9:00", "9:40", "9:50", "11:00", "15:00", "18:00"};
+        String[] dep = {"9:10", "12:00", "11:20", "11:30", "19:00", "20:00"};
+
+        int minPlatforms = findMinPlatforms(arr, dep);
+        System.out.println("Minimum number of platforms needed: " + minPlatforms);
+    }
+
+    public static int findMinPlatforms(String[] arr, String[] dep) {
+        int n = arr.length;
+
+        // Convert time strings to minutes for easier comparison
+        int[] arrival = Arrays.stream(arr).mapToInt(MinPlatforms::convertToMinutes).toArray();
+        int[] departure = Arrays.stream(dep).mapToInt(MinPlatforms::convertToMinutes).toArray();
+
+        // Sort arrival and departure arrays
+        Arrays.sort(arrival);
+        Arrays.sort(departure);
+
+        int platformsNeeded = 1;  // At least one platform is needed
+
+        int i = 1, j = 0;
+        int currentPlatforms = 1;
+
+        while (i < n && j < n) {
+            if (arrival[i] <= departure[j]) {
+                // Train arrives before the previous one departs
+                currentPlatforms++;
+                i++;
+            } else {
+                // Train departs before the next one arrives
+                currentPlatforms--;
+                j++;
+            }
+
+            // Update the overall platforms needed
+            platformsNeeded = Math.max(platformsNeeded, currentPlatforms);
+        }
+
+        return platformsNeeded;
+    }
+
+    private static int convertToMinutes(String time) {
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return hours * 60 + minutes;
+    }
+}
+
+Minimum number of platforms needed: 3

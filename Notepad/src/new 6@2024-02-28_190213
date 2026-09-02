@@ -1,0 +1,14 @@
+
+1. Brief introduction & Project , Roles & Resposibilty
+2. WAP for search the index of key = 9 using binary search.
+   int arr[] = {1,3,5,8,9,10};
+   if key is not present return -1.
+3. WAP to find the occurence of each Character in Word.
+   String str = "apple";
+4. How to implement thread. WAP to demonstrate.
+5. what is Singleton and WAP to create a singleton class.
+6. Scenario based question.
+    Given a Bank details. it has customer. write a sudo logic for withdraw.
+7. Monolithic Vs Microservices
+8. REST Architecture
+9. what are drawback of Distributed environment.

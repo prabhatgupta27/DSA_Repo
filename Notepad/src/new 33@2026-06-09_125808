@@ -1,0 +1,29 @@
+                                 
+								  
+								  @Entity
+								  class Payment{
+								  
+								  @Id
+								  private String idempotentKey;
+								  
+								  private String transactionId;
+								  
+			
+								  
+								
+								  
+								  }
+								  
+								  
+								  public String processPaymnet(String Key){
+								  
+								  
+								  Optional<Paymnet> pay = repository.findById(Key);
+								  
+								       if(pay.isPresent()){
+									          return pay.get();
+									   }
+									   
+									   return UUID.randomUUID().toString();
+								  
+								  }

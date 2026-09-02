@@ -1,0 +1,30 @@
+
+list = {2,4,2,3,7}
+temp = 0;
+list.stream().filter(f->f%2==0).forEach((n)-> {
+temp +=n*n
+});
+sout(temp);
+
+class Emp{
+
+String name;
+String id;
+
+}
+Map<Employee, Integer> e = new HashMap<>();
+
+e.put(new Emp("Raj", 100), 100);
+e.put(new Emp("Raj", 100), 100);
+e.put(new Emp("Raj", 200), 100) 
+
+
+
+books
+id,name,author
+1,abc,raj
+2,abc1,rohit
+3,abc2,rahul
+4,abc3,raj
+
+select author,count(*) from book  group By author having count(*) >=2;

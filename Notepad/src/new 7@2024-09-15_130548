@@ -1,0 +1,64 @@
+Viewing and Comparing Changes
+1. git diff: Show file differences not yet staged.
+
+2. git status: Show the state of your working directory.
+
+3. git show <commit_id>: Show details about a specific commit.
+
+Staging and Committing Changes
+4. git add <file_path>: Add file(s) to the staging area.
+
+5. git commit -a -m "commit_message": Commit all tracked changes with a message.
+
+6. git commit --amend: Modify the last commit.
+
+Branching and Switching
+7. git branch: List branches.
+
+8. git branch -D <branch_name>: Forcefully delete a branch.
+
+9. git checkout -b <branch_name>: Create and switch to a new branch.
+
+10. git checkout <branch_name>: Switch to an existing branch.
+
+11. git checkout <commit>: Switch to a specific commit.
+
+Merging and Rebasing
+12. git merge: Merge branches together.
+
+13. git rebase -i: Rebase interactively, rewrite commit history.
+
+14. git rebase <branch_name>: Rebase the current branch onto another branch.
+
+Remote Operations
+15. git push origin <branch_name>: Push a branch to a remote.
+
+16. git pull: Fetch and merge remote changes.
+
+17. git fetch: Fetch changes from the remote repository without merging.
+
+Undoing Changes
+18. git reset HEAD~1: Undo the last commit, preserving changes locally.
+
+19. git reset --soft HEAD^: Undo the last commit, but keep the changes.
+
+20. git reset --hard: Reset everything to a previous commit, erasing all uncommitted changes.
+
+21. git revert <commit_id>: Create a new commit that undoes the changes of a specific commit.
+
+Stashing
+22. git stash: Stash changes for later.23. git stash pop: Apply and remove stashed changes.
+
+Cherry-Picking
+24. git cherry-pick <commit_id>: Apply changes from a specific commit.
+
+Branch Tracking
+25. git branch --set-upstream-to <remote_branch>: Set the upstream branch to the specified remote branch.
+
+#SoftwareEngineering hashtag #TechCommunity hashtag #git hashtag #versioncontrol hashtag #github hashtag #developers
+
+Minimize image
+Edit image
+Delete image
+
+

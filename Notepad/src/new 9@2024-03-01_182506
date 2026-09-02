@@ -1,0 +1,21 @@
+
+
+1. Write a multithreaded program where on thread prints descending order number and other ascending order numbers in between 0-50.
+Output should be
+Thread 1 :0
+Thread 2 :50
+Thread 1 :1
+Thread 2 :49
+Thread 1 :2
+Thread 2 :48
+Thread 1 :3
+Thread 2 :47
+Thread 1 :4
+Thread 2 :46
+2.sort list of employees based on name using java 8.
+3.Can we use object as a key in hashmap in Java? If yes can you explain how.
+4. what is Circuit Breaker. can you write the program.
+5.which are component or service use in AWS. explain all of them.
+6. how building image and deploying in cloud.
+7. how checking performance issue of you application.
+8.how taking thread dump and heap dump and which senario you take thread dump and heap dump.

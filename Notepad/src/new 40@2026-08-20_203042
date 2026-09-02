@@ -1,0 +1,38 @@
+ public class Demo {
+ 
+    public static void main(String[] args) {
+        Shape s = null;
+        s.draw();
+    }
+}
+ 
+	class Shape{
+		public static void draw()
+		{
+			System.out.println("Shape");
+		}
+	}
+	
+		public class Test {
+ 
+	 public void foo(String s) {
+	 System.out.println("String");
+	 }
+ 
+	 public void foo(StringBuffer sb){
+	 System.out.println("StringBuffer");
+	 }
+ 
+	 public static void main(String[] args) {
+		new Test().foo(null);
+	}
+ 
+}
+
+kafkaTemplate.send("order_created",order.getId().toString, event);
+
+@CircuitBreaker("pay_service", fallbackMethod = "payment_bypass")
+public void processPayment(){
+	
+	restClient.process();
+}

@@ -1,0 +1,115 @@
+public class LongestCommonSubstring {
+
+    public static String findLongestCommonSubstring(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+
+        // Step 1: Find the shortest string to minimize substring generation
+        String shortest = strs[0];
+        for (String str : strs) {
+            if (str.length() < shortest.length()) {
+                shortest = str;
+            }
+        }
+
+        int m = shortest.length();
+
+        // Step 2: Try substring lengths from maximum possible down to 1
+        for (int len = m; len > 0; len--) {
+            // Slide a window of size 'len' across the shortest string
+            for (int start = 0; start <= m - len; start++) {
+                String candidate = shortest.substring(start, start + len);
+
+                // Step 3: Check if candidate exists in all strings
+                boolean isCommon = true;
+                for (String str : strs) {
+                    if (!str.contains(candidate)) {
+                        isCommon = false;
+                        break; // Stop checking this candidate if any string misses it
+                    }
+                }
+
+                // First valid candidate found is guaranteed to be the longest!
+                if (isCommon) {
+                    return candidate;
+                }
+            }
+        }
+
+        return "";
+    }
+}
+
+Time Complexity: $O(M^2 \cdot K \cdot N)$, where $M$ is the length of the shortest string, $K$ is the number 
+of strings, and $N$ is the average length of the strings (matching substrings using contains() takes $O(N)$ time)
+.Space Complexity: $O(M)$ to store the temporary candidate substring window.
+
+
+public class Solution {
+    public static String findLongestCommonSubstring(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        
+        // Find shortest string to bound search range
+        String ref = strs[0];
+        for (String s : strs) if (s.length() < ref.length()) ref = s;
+        
+        int low = 1, high = ref.length();
+        String ans = "";
+        
+        // Binary Search on Substring Length -> O(log M)
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            String match = getCommonSub(strs, ref, mid);
+            
+            if (match != null) {
+                ans = match;   // Found valid substring, try longer
+                low = mid + 1;
+            } else {
+                high = mid - 1; // Not found, try shorter
+            }
+        }
+        return ans;
+    }
+
+    private static String getCommonSub(String[] strs, String ref, int len) {
+        for (int i = 0; i <= ref.length() - len; i++) {
+            String sub = ref.substring(i, i + len);
+            boolean present = true;
+            for (String s : strs) {
+                if (!s.contains(sub)) { present = false; break; }
+            }
+            if (present) return sub;
+        }
+        return null;
+    }
+}
+
+Time Complexity: $O(N \cdot M \log M)$, where $M$ is the length of the shortest string and $N$ is the total
+ length of all strings combined.Space Complexity: $O(M)$ to store the temporary candidate substring.
+
+
+public class Solution {
+    public static String isSubsequence(String str1, String str2) {
+        int i = 0; // Pointer for str1 (target string)
+        int j = 0; // Pointer for str2 (source string)
+        
+        int n1 = str1.length();
+        int n2 = str2.length();
+        
+        // Scan str2 until we exhaust either str1 or str2
+        while (i < n1 && j < n2) {
+            if (str1.charAt(i) == str2.charAt(j)) {
+                i++; // Target character matched! Look for the next one
+            }
+            j++; // Always advance in str2
+        }
+        
+        // If i reached n1, all characters of str1 were matched in order
+        return (i == n1) ? "YES" : "NO";
+    }
+}
+
+Time Complexity: $O(N)$, where $N$ is the length of str2, because pointer j traverses str2 at most once in a 
+single linear scan.Space Complexity: $O(1)$, because we only use two primitive integer variables (i and j) to
+ track indices.

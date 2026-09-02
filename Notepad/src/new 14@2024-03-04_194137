@@ -1,0 +1,10 @@
+1) tell me about your project and tech stack you are using?
+2) how we will read data from topic in kafka?
+3) how same consumer group will manage reading data from partition?
+4) suppose you have 6 or 8 or 10 JVM from same consumer group will operate reads from partition.
+5) write a consumer logic to consume data from topic?
+6) write a singleton class?
+7) what is singleton and protoype scope in springboot?
+8) why we need prototype?
+9) how you are doing unit testing in your application?
+10) what is code coverage?
